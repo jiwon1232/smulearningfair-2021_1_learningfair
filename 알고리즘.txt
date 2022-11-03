@@ -1,0 +1,69 @@
+from tkinter import *
+from tkinter import messagebox
+from datetime import datetime, timedelta
+import random
+
+next_move = None
+class MyInformation:
+    def __init__(self):
+        self.root = Tk()
+
+        self.button = Button(self.root, text="현재 시각 출력", command=self.button_clicked, width=10, height=2)
+        self.button.grid(row=23, column=3)
+        self.label = Label(self.root, text="", width=40, height=2)
+        self.label.grid(row=1, column=1)
+
+    def button_clicked(self):
+        now = datetime.now()
+        print("now date and time : " + str(now))
+        self.label["text"] = "now date and time : " + str(now)
+
+    def run(self):
+        self.root.mainloop()
+
+
+def clicked():
+    win.after_cancel(next_move)
+    end_time = datetime.now()
+    print(start_time, end_time)
+    if end_time >= start_time + timedelta(seconds=10): 
+        messagebox.showinfo("미션 실패", "용케 잡았지만 너무 늦었네요.")
+        win.quit()
+
+    else:
+        messagebox.showinfo("미션 성공", "클릭성공!! 축하합니다!")
+        win.quit()
+    
+
+def btn_move():
+    
+
+    global next_move
+    new_x = random.randint(50, 450)
+    new_y = random.randint(50, 450)
+    delay = random.randint(1000, 1500)
+    button.place(x=new_x, y=new_y)
+    next_move = win.after(delay, btn_move)
+
+
+import tkinter
+
+win = tkinter.Tk()
+canvas = tkinter.Canvas(win, width=800, height=700)
+canvas.pack()
+py_img = tkinter.PhotoImage(file="img4.png") 
+canvas.create_image(400,350,image=py_img)
+win.title("참새를 잡아라 게임")
+
+
+img = PhotoImage(file="img1.png")
+button = Button(win, image=img, command=clicked)
+button.place(x=250, y=250)
+
+global start_time 
+start_time = datetime.now()
+
+btn_move()
+
+
+win.mainloop()
